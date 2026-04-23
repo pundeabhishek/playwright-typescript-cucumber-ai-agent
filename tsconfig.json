@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node", "@playwright/test"],
+    "paths": {
+      "@config/*": ["./src/config/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@components/*": ["./src/components/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@fixtures/*": ["./src/fixtures/*"],
+      "@visual/*": ["./src/visual/*"]
+    },
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "dist"
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "bdd/**/*.ts",
+    "playwright.config.ts",
+    "cucumber.js"
+  ]
+}

@@ -1,0 +1,12 @@
+node_modules
+reports
+visual/actual
+visual/diff
+visual/reports
+allure-report
+allure-results
+playwright-report
+test-results
+artifacts
+dist
+.env
