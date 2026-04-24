@@ -3,7 +3,6 @@
 import fs from 'fs';
 import path from 'path';
 import { PNG } from 'pngjs';
-import pixelmatch from 'pixelmatch';
 import { Page, TestInfo } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { paths } from '@config/paths';
@@ -11,6 +10,13 @@ import { visualConfig, shouldUpdateBaseline } from '@config/visual-regression';
 import { ArtifactManager } from '@utils/artifact-manager';
 import { Logger } from '@utils/logger';
 import { CompareScreenshotOptions, VisualComparisonResult } from './types';
+
+type Pixelmatch = typeof import('pixelmatch').default;
+
+let pixelmatchLoader: Promise<Pixelmatch> | undefined;
+const dynamicImport = new Function('specifier', 'return import(specifier)') as (
+  specifier: string
+) => Promise<unknown>;
 
 const buildVisualPath = (root: string, browserName: string, fileName: string): string => {
   const folder = path.join(root, browserName);
@@ -61,6 +67,15 @@ const attachFileIfExists = async (name: string, filePath: string): Promise<void>
   }
 
   await allure.attachment(name, fs.readFileSync(filePath), { contentType: 'image/png' });
+};
+
+const loadPixelmatch = async (): Promise<Pixelmatch> => {
+  // Use a runtime import wrapper so CommonJS transpilation does not rewrite this back to require().
+  if (!pixelmatchLoader) {
+    pixelmatchLoader = dynamicImport('pixelmatch').then(module => (module as { default: Pixelmatch }).default);
+  }
+
+  return pixelmatchLoader;
 };
 
 export const compareScreenshot = async (
@@ -119,6 +134,7 @@ export const compareScreenshot = async (
   }
 
   const diff = new PNG({ width: baseline.width, height: baseline.height });
+  const pixelmatch = await loadPixelmatch();
   // pixelmatch gives us a strict pixel-level comparison and produces the diff image.
   const pixelDifferenceCount = pixelmatch(baseline.data, actual.data, diff.data, baseline.width, baseline.height, {
     threshold

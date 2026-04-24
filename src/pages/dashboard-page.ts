@@ -5,14 +5,14 @@ export class DashboardPage extends BasePage {
   readonly dashboardHeader: Locator;
   readonly sidePanel: Locator;
   readonly userDropdown: Locator;
-  readonly pageHeader: Locator;
+  readonly pageHeaderModule: Locator;
 
   constructor(page: Page) {
     super(page);
     this.dashboardHeader = page.getByRole('heading', { name: /dashboard/i });
     this.sidePanel = page.locator('aside');
     this.userDropdown = page.locator('.oxd-userdropdown-name');
-    this.pageHeader = page.locator('.oxd-topbar-header-title');
+    this.pageHeaderModule = page.locator('h6.oxd-topbar-header-breadcrumb-module');
   }
 
   async expectLoaded(): Promise<void> {
@@ -25,6 +25,6 @@ export class DashboardPage extends BasePage {
     await expect(this.sidePanel).toBeVisible();
     const pimMenu = this.page.getByRole('link', { name: /^pim$/i });
     await this.safeClick(pimMenu);
-    await expect(this.pageHeader).toContainText('PIM');
+    await expect(this.pageHeaderModule).toHaveText('PIM');
   }
 }

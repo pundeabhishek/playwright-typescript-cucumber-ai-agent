@@ -20,7 +20,7 @@ test.describe('OrangeHRM visual regression', () => {
 
     await compareScreenshot({
       name: 'orangehrm-pim-header',
-      locatorSelector: '.oxd-topbar-header-title'
+      locatorSelector: 'h6.oxd-topbar-header-breadcrumb-module'
     });
   });
 });

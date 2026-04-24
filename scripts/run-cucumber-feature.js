@@ -1,3 +1,4 @@
+const path = require('path');
 const { spawnSync } = require('child_process');
 
 const featureArgs = process.argv.slice(2);
@@ -7,10 +8,12 @@ if (!featureArgs.length) {
   process.exit(1);
 }
 
-const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+const cucumberPackageJson = require.resolve('@cucumber/cucumber/package.json');
+const cucumberBin = path.join(path.dirname(cucumberPackageJson), 'bin', 'cucumber.js');
 
-const result = spawnSync(npxCommand, ['cucumber-js', '--config', 'cucumber.js'], {
+const result = spawnSync(process.execPath, [cucumberBin, '--config', 'cucumber.js'], {
   stdio: 'inherit',
+  cwd: path.resolve(__dirname, '..'),
   env: {
     ...process.env,
     CUCUMBER_FEATURES: featureArgs.join(',')

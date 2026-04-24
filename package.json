@@ -10,6 +10,7 @@
     "test:pom": "playwright test tests/e2e --grep @pom --project=chromium",
     "test:pom:cross-browser": "playwright test tests/e2e --grep @pom --project=chromium --project=firefox --project=webkit",
     "test:cucumber": "cucumber-js --config cucumber.js",
+    "test:cucumber:parallel": "cucumber-js --config cucumber.js --parallel 2",
     "test:cucumber:feature": "node scripts/run-cucumber-feature.js",
     "report:playwright": "playwright show-report reports/playwright/html",
     "report:allure": "allure generate reports/allure-results --clean -o reports/allure-report",
@@ -21,6 +22,7 @@
     "@playwright/test": "^1.54.1",
     "@types/node": "^24.6.0",
     "@types/pngjs": "^6.0.5",
+    "type": "module",
     "allure-commandline": "^2.34.1",
     "allure-cucumberjs": "^3.7.1",
     "allure-js-commons": "^3.4.1",
@@ -32,5 +34,8 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "codex": "^0.2.3"
   }
 }

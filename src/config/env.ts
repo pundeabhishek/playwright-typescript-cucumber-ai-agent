@@ -7,7 +7,8 @@ import { projectRoot } from './project-root';
 dotenv.config({ path: path.join(projectRoot, '.env') });
 
 export const env = {
-  baseUrl: process.env.BASE_URL ?? 'https://opensource-demo.orangehrmlive.com/web/index.php/',
+  baseUrl: process.env.BASE_URL ?? 'https://www.saucedemo.com/',
+  // 'https://opensource-demo.orangehrmlive.com/web/index.php/',
   username: process.env.DEMO_USERNAME ?? 'Admin',
   password: process.env.DEMO_PASSWORD ?? 'admin123'
 };
